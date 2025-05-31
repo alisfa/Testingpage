@@ -1,34 +1,46 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ar" dir="rtl">
 <head>
   <meta charset="UTF-8" />
-  <title>WebXR AR Only Viewer</title>
+  <title>عارض الواقع المعزز</title>
   <script type="module" src="https://unpkg.com/@google/model-viewer/dist/model-viewer.min.js"></script>
   <style>
     body {
       margin: 0;
-      font-family: sans-serif;
+      font-family: 'Arial', sans-serif;
       background: #111;
       color: white;
-      text-align: center;
       display: flex;
       flex-direction: column;
+      align-items: center;
       justify-content: center;
       height: 100vh;
+      text-align: center;
     }
 
     #arButton {
-      padding: 14px 28px;
-      font-size: 18px;
-      background: #28a745;
+      padding: 16px 32px;
+      font-size: 24px;
+      background: linear-gradient(90deg, #00c9ff, #92fe9d);
       border: none;
-      color: white;
-      border-radius: 5px;
+      border-radius: 50px;
+      color: black;
+      font-weight: bold;
       cursor: pointer;
+      box-shadow: 0 0 20px rgba(0, 255, 128, 0.4);
+      animation: pulse 2s infinite;
+      transition: transform 0.2s ease;
     }
 
     #arButton:hover {
-      background: #218838;
+      transform: scale(1.05);
+      box-shadow: 0 0 25px rgba(0, 255, 128, 0.6);
+    }
+
+    @keyframes pulse {
+      0% { box-shadow: 0 0 20px rgba(0, 255, 128, 0.4); }
+      50% { box-shadow: 0 0 30px rgba(0, 255, 128, 0.8); }
+      100% { box-shadow: 0 0 20px rgba(0, 255, 128, 0.4); }
     }
 
     model-viewer {
@@ -41,7 +53,7 @@
 </head>
 <body>
 
-  <button id="arButton" style="display:none;">Start AR</button>
+  <button id="arButton" style="display:none;">ابدأ التجربة</button>
 
   <model-viewer
     id="viewer"
@@ -66,7 +78,7 @@
       try {
         return atob(base64);
       } catch (e) {
-        alert('Invalid Base64 string');
+        alert('رمز base64 غير صالح');
         return null;
       }
     }
@@ -78,7 +90,7 @@
         viewer.src = url;
         arButton.style.display = 'inline-block';
       } else {
-        alert("Invalid or missing GLB URL in base64");
+        alert("رابط glb غير صالح أو مفقود");
       }
     }
 
