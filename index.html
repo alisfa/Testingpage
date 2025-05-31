@@ -20,14 +20,13 @@
       text-align: center;
       
     }
-
-body.ios .wrap {
+    
+    body.ios .wrap {
   width: 130%;
   transform: translate(15px, -6px);
 }
-
-
-/* From Uiverse.io by chase2k25 */ 
+    
+    /* From Uiverse.io by chase2k25 */ 
 .button {
   --white: #e6f3ff;
   --blue-100: #b1d4fd;
@@ -56,7 +55,7 @@ body.ios .wrap {
   inset: 0;
   border-radius: inherit;
   filter: blur(1px);
-  
+
 }
 .bg::before,
 .bg::after {
@@ -95,6 +94,14 @@ body.ios .wrap {
   position: relative;
   transition: all 0.3s ease;
   
+}
+
+@supports (-webkit-touch-callout: none) {
+  /* CSS specific to iOS devices */
+  .wrap{
+    width: 130%;
+    transform: translate(6px, -6px);
+  }
 }
 
 .outline {
@@ -551,14 +558,12 @@ body.ios .wrap {
       viewer.activateAR();
     });
   </script>
-
 <script>
   const ua = navigator.userAgent || navigator.vendor || window.opera;
-
+  
   if (/iPad|iPhone|iPod/.test(ua) && !window.MSStream) {
     document.body.classList.add("ios");
   }
 </script>
-
 </body>
 </html>
