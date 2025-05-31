@@ -544,5 +544,13 @@
     });
   </script>
 
+<script>
+  const ua = navigator.userAgent || navigator.vendor || window.opera;
+
+  if (/iPad|iPhone|iPod/.test(ua) && !window.MSStream) {
+    document.body.classList.add("ios");
+  }
+</script>
+
 </body>
 </html>
