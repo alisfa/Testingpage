@@ -1,70 +1,98 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-  <meta charset="utf-8">
-  <title>MindAR Marker AR</title>
-  <script src="https://cdn.jsdelivr.net/npm/three@0.150.1/build/three.min.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/three@0.150.1/examples/js/loaders/GLTFLoader.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/mind-ar@1.2.2/dist/mindar-image-three.prod.js"></script>
+  <meta charset="UTF-8" />
+  <title>WebXR AR Viewer</title>
+  <script type="module" src="https://unpkg.com/@google/model-viewer/dist/model-viewer.min.js"></script>
   <style>
-    html, body { margin: 0; overflow: hidden; }
-    #ar-button {
-      position: absolute;
-      top: 15px;
-      left: 50%;
-      transform: translateX(-50%);
-      z-index: 10;
-      padding: 10px 20px;
-      background: #008CBA;
+    body {
+      margin: 0;
+      font-family: sans-serif;
+      background: #111;
       color: white;
+      text-align: center;
+    }
+
+    header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background: #222;
+      padding: 10px 20px;
+      position: sticky;
+      top: 0;
+      z-index: 999;
+    }
+
+    #arButton {
+      padding: 10px 20px;
       font-size: 16px;
+      background: #28a745;
       border: none;
-      border-radius: 5px;
+      color: white;
+      border-radius: 4px;
+      cursor: pointer;
+    }
+
+    #arButton:hover {
+      background: #218838;
+    }
+
+    #uploader {
+      padding: 6px;
+      font-size: 14px;
+      color: white;
+    }
+
+    model-viewer {
+      width: 100vw;
+      height: 90vh;
+      background: #000;
+      display: none;
     }
   </style>
 </head>
 <body>
 
-<button id="ar-button">Start AR</button>
+  <header>
+    <label>
+      <input type="file" id="uploader" accept=".glb" />
+    </label>
+    <button id="arButton" style="display:none;">Start AR Mode</button>
+  </header>
 
-<script>
-  const loadGLB = (url) => {
-    return new Promise((resolve, reject) => {
-      const loader = new THREE.GLTFLoader();
-      loader.load(url, resolve, undefined, reject);
+  <model-viewer
+    id="viewer"
+    ar
+    ar-modes="webxr scene-viewer quick-look"
+    autoplay
+    auto-rotate
+    camera-controls
+    environment-image="neutral">
+  </model-viewer>
+
+  <script>
+    const uploader = document.getElementById('uploader');
+    const viewer = document.getElementById('viewer');
+    const arButton = document.getElementById('arButton');
+
+    uploader.addEventListener('change', (e) => {
+      const file = e.target.files[0];
+      if (!file || !file.name.endsWith('.glb')) {
+        alert("Please upload a .glb file");
+        return;
+      }
+
+      const objectURL = URL.createObjectURL(file);
+      viewer.src = objectURL;
+      viewer.style.display = 'block';
+      arButton.style.display = 'inline-block';
     });
-  };
 
-  const startAR = async () => {
-    const mindarThree = new window.MINDAR.IMAGE.MindARThree({
-      container: document.body,
-      imageTargetSrc: './target.mind',
+    arButton.addEventListener('click', () => {
+      viewer.activateAR();
     });
-
-    const {renderer, scene, camera} = mindarThree;
-
-    const anchor = mindarThree.addAnchor(0);
-
-    const gltf = await loadGLB('./model.glb');
-    const model = gltf.scene;
-    const mixer = new THREE.AnimationMixer(model);
-    gltf.animations.forEach((clip) => mixer.clipAction(clip).play());
-
-    anchor.group.add(model);
-
-    await mindarThree.start();
-
-    renderer.setAnimationLoop(() => {
-      mixer.update(1/60);
-      renderer.render(scene, camera);
-    });
-  };
-
-  document.getElementById("ar-button").addEventListener("click", () => {
-    document.getElementById("ar-button").style.display = "none";
-    startAR();
-  });
-</script>
+  </script>
 
 </body>
 </html>
