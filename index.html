@@ -1,31 +1,97 @@
 <!DOCTYPE html>
-<html lang="ar" dir="rtl">
-
+<html lang="en">
 <head>
-  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" />
-  <meta charset="UTF-8" />
-  <title>عارض الواقع المعزز</title>
-  <script type="module" src="https://unpkg.com/@google/model-viewer/dist/model-viewer.min.js"></script>
+  <meta charset="utf-8" />
+  <title>Printor AR Experience</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
   <style>
-    body {
+    @import url("https://fonts.googleapis.com/css?family=Roboto:900,600,italic|Slackey:400");
+
+    * {
       margin: 0;
-      font-family: 'Arial', sans-serif;
-      background: #d8f4fd;
-      color: white;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      background: white;
+      display: flex;
+      justify-content: center;
+      min-height: 100vh;
+    }
+
+    .container {
+      width: 393px;
+      height: 852px;
+      position: relative;
       display: flex;
       flex-direction: column;
       align-items: center;
-      justify-content: center;
-      height: 100vh;
-      text-align: center;
-      
+      overflow: hidden;
+      background: rgba(255, 255, 255, 0);
+  
     }
-    
-    body.ios .wrap {
-  width: 130%;
-  transform: translate(15px, -6px);
-}
-    
+
+    .logo {
+      width: 83px;
+      height: 83px;
+      object-fit: cover;
+      margin-top: 40px;
+    }
+
+    .arabic-title {
+      font-family: 'Slackey', Helvetica;
+      font-size: 20px;
+      color: black;
+      text-align: center;
+      letter-spacing: -1px;
+      direction: rtl;
+      margin-top: 44px;
+    }
+
+    .main-text {
+       font-family: 'Roboto Condensed', sans-serif;
+     
+      font-weight: 1000;
+      font-style: italic;
+      font-size: 128px;
+      color: black;
+      text-align: center;
+      letter-spacing: -1px;
+      white-space: nowrap;
+      transform: rotate(-4deg);
+      margin-top: 80px;
+      margin-bottom: -20px;
+      z-index: 0;
+    }
+
+    .button-container {
+      margin-top: 0px;
+      z-index: 1;
+      position: relative;
+    }
+
+    .camera-notice {
+      margin-top: auto;
+      margin-bottom: 176px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .info-icon {
+      width: 20px;
+      height: 20px;
+    }
+
+    .camera-text {
+      font-family: 'Slackey', Helvetica;
+      font-size: 12px;
+      color: black;
+      text-align: center;
+      letter-spacing: -1px;
+      direction: rtl;
+    }
     /* From Uiverse.io by chase2k25 */ 
 .button {
   --white: #e6f3ff;
@@ -356,6 +422,12 @@
 .button:focus .char.state-2 span::after {
   animation: charAppear 1s ease backwards calc(var(--i) * 0.03s);
 }
+   model-viewer {
+      width: 0;
+      height: 0;
+      visibility: hidden;
+      position: absolute;
+    }
 
 @keyframes spin {
   0% {
@@ -466,19 +538,24 @@
     stroke-dashoffset: -60;
   }
 }
-    model-viewer {
-      width: 0;
-      height: 0;
-      visibility: hidden;
-      position: absolute;
-    }
   </style>
-</head>
-<body>
-  <h1 style="position: absolute; top: 10px; color: black; font-size: 80px;">printor</h1>
+ <link href="https://fonts.googleapis.com/css2?family=Roboto+Condensed:wght@300;400;700&display=swap" rel="stylesheet">
 
-  <!-- From Uiverse.io by chase2k25 --> 
-<!-- From Uiverse.io by chase2k25 -->
+
+</head>
+
+<body>
+  <div class="container">
+    <img class="logo" alt="Printor Logo" src="/img-1776-1.png" />
+    
+    <div class="arabic-title">
+      تحربة الواقع المعزز من برينتور
+    </div>
+
+    <div class="main-text">Printor</div>
+
+    <div class="button-container">
+      <!-- From Uiverse.io by chase2k25 -->
 <button class="button" id="arButton">
   <div class="bg"></div>
   <svg
@@ -519,7 +596,8 @@
   </div>
 </button>
 
-  <model-viewer
+    </div>
+     <model-viewer
     id="viewer"
     ar
     ar-modes="webxr scene-viewer quick-look"
@@ -529,7 +607,16 @@
     environment-image="neutral">
   </model-viewer>
 
-  <script>
+
+    <div class="camera-notice">
+      <img class="info-icon" alt="Information icon" src="/interface-essential-information-rectangle-.svg" />
+      <div class="camera-text">
+        يرجى السماح بالوصول الى الكاميرا
+      </div>
+    </div>
+  </div>
+</body>
+<script>
     const viewer = document.getElementById('viewer');
     const arButton = document.getElementById('arButton');
 
@@ -569,5 +656,4 @@
     document.body.classList.add("ios");
   }
 </script>
-</body>
 </html>
