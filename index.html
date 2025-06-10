@@ -86,7 +86,7 @@
     if (base64) {
       const url = decodeBase64Url(base64);
       if (url && url.endsWith('.glb')) {
-        viewer.src = url;
+        viewer.srcr = url;
         viewer.style.display = 'block';
         arButton.style.display = 'inline-block';
       } else {
