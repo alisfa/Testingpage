@@ -639,12 +639,9 @@
     const base64 = getBase64Param();
     if (base64) {
       const url = decodeBase64Url(base64);
-      if (url && url.endsWith('.glb')) {
+      
         viewer.src = url;
         arButton.style.display = 'inline-block';
-      } else {
-        alert("رابط glb غير صالح أو مفقود");
-      }
     }
 
     arButton.addEventListener('click', () => {
